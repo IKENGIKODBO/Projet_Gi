@@ -18,15 +18,14 @@ jobs:
         with:
           go-version: '1.19'
 
-      - name: Install GoReleaser
-        uses: goreleaser/goreleaser-action@v2
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v6
         with:
-          version: latest
-
-      - name: Release with GoReleaser
+          distribution: goreleaser
+          version: "~> v1"
+          args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: goreleaser release --rm-dist
 
       - name: Build Docker image
         run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}:${{ github.ref }} .
