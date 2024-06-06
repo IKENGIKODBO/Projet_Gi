@@ -20,7 +20,7 @@ jobs:
           go-version: '1.19'
 
       - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@latest
+        uses: goreleaser/goreleaser-action@v6
         with:
           distribution: goreleaser
           version: "~> v1"
