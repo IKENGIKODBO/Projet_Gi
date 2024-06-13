@@ -6,42 +6,29 @@ on:
   workflow_dispatch:
 
 jobs:
-  static-analysis:
+  semgrep:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: Run Semgrep
-        uses: returntocorp/semgrep-action@v3
-        with:
-          config: auto
+        uses: returntocorp/semgrep-action@v1
 
-  dockerfile-analysis:
+  hadolint:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Run Hadolint
-        uses: hadolint/hadolint-action@v3.1.0
+      - uses: actions/checkout@v4
+      - uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: Dockerfile
-
   super-linter:
-    if: github.event_name == 'pull_request'
+    #if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: Run Super-Linter
         uses: github/super-linter@v4
         env:
-          VALIDATE_ALL_CODEBASE: false
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKE N}}
-
-# test
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
